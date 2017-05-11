@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/index.css"/>
+		<script src="js/jquery-2.2.2.min.js"></script>
+	</head>
+	<body>
+		<div class="holiday-content-header bgColor_f6f6f6">
+			<!--<span class="fColor_666" ng-show="has_holiday==false">点击下方蓝色切换成放假</span>-->
+			<div class="holiday-content-week"><span class="fWeight fColor_black">周日</span><span class="fWeight fColor_black">周一</span><span class="fWeight fColor_black">周二</span><span class="fWeight fColor_black">周三</span><span class="fWeight fColor_black">周四</span><span class="fWeight fColor_black">周五</span><span class="fWeight fColor_black">周六</span></div>
+		</div>
+		<div class="holiday-content-body">
+			<!--<div class="holiday-content-bg"></div>-->
+		</div>
+	</body>
+	<script>
+		var obj={
+			year:2017,
+			Y_month:"2017-5",
+			month:5,
+			class_:'.holiday-content-body'
+		};
+		var week_first=create_calendar(obj)
+		function create_calendar(obj) {
+			var first_week,child_height=init_holiday(obj.year,obj.month);
+			first_week=create_days(obj.Y_month,child_height);
+			/*创建主体*/
+			function create_days(month, child_height) {
+				var this_year = [],first_week,flag_blank=true,f,e;
+				this_year = month.split("-");
+				var a = new Date(this_year[0], this_year[1], 0).getDate();
+				f = new Date(Date.UTC(this_year[0], this_year[1] - 1, 1)).getDay();
+				e = new Date(Date.UTC(this_year[0], this_year[1] - 1, a)).getDay();
+				calender_body(f,e,a,flag_blank);
+				return f;
+			}
+			/*获取每月有多少周*/
+			function init_holiday(year, month) {
+				var last = new Date(year, month, 0); //获取当前月最后一天时间  
+				var d = last.getDate();
+				var weekNum = getMonthWeek(year, month, d);
+				var body_height = $(window).height() ; /*设置高度*/
+				$(obj.class_).css("height", body_height);
+				var child_height = body_height / weekNum;
+				return child_height;
+			}
+			/*计算有多少周*/
+			function getMonthWeek(a, b, c) {
+				var date = new Date(a, parseInt(b) - 1, c),
+					w = date.getDay(),
+					d = date.getDate();
+				return Math.ceil(
+					(d + 6 - w) / 7
+				);
+			};
+			/*填充1号之前以及31号(30号)之后的空白*/
+			function blank_fill(num,flag){
+				if(flag){
+					for(var j = 0; j < num; j++) {
+						$(obj.class_).append(
+							"<div class='holiday-date' style='height:" 
+							+ child_height + "px;line-height:" 
+							+ child_height + "px;'></div>"
+						);
+					}
+				}else{
+					for(var k = 0; k < (6 - num); k++) {
+						$(obj.class_).append(
+							"<div class='holiday-date' style='height:" 
+							+ child_height + "px;line-height:" 
+							+ child_height + "px;'></div>"
+						);
+					}
+				}
+			}
+			/*创建每天的情况*/
+			function calender_body(f,e,a,flag){
+				for(var i = 1; i <= a; i++) {
+					var child_str="<div class='holiday-date' style='height:" + child_height + "px;line-height:" + child_height + "px;' month-day='"+i+"'>"+i+"</div>";
+					if(i == 1) {
+						blank_fill(f,flag);
+						flag=false;
+						$(obj.class_).append(child_str);
+					} else {
+						$(obj.class_).append(child_str);
+						if(i == a) {
+							blank_fill(e,flag)
+						}
+					}
+				}
+			}
+			return first_week;
+		}
+	</script>
+</html>
