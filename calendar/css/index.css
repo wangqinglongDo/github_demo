@@ -1,3 +1,6 @@
+.header{text-align: center;border-top: 1px solid #dfdfdf;}
+.date{margin: 0 20px;}
+.holiday-content-week{border-bottom: 1px solid #dfdfdf;}
 .holiday-content-header{width:1407px;position: relative;height: 44px;line-height: 44px;border: 1px solid #dfdfdf;border-top: 0;}
 .holiday-content-header>span{font-size: 12px;display: block;line-height: 1;z-index: 10;position: absolute;top: -13px;width: 362px;text-align: center;}
 .holiday-content-week>span{display:inline-block;height: 30px;line-height: 30px;width: 200px;text-align: center;}

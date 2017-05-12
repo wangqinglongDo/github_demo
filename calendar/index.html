@@ -8,11 +8,10 @@
 	</head>
 	<body>
 		<div class="holiday-content-header bgColor_f6f6f6">
-			<!--<span class="fColor_666" ng-show="has_holiday==false">点击下方蓝色切换成放假</span>-->
+			<div class="header"><span class="left"><<</span><span class="date"></span><span class="right">>></span></div>
 			<div class="holiday-content-week"><span class="fWeight fColor_black">周日</span><span class="fWeight fColor_black">周一</span><span class="fWeight fColor_black">周二</span><span class="fWeight fColor_black">周三</span><span class="fWeight fColor_black">周四</span><span class="fWeight fColor_black">周五</span><span class="fWeight fColor_black">周六</span></div>
 		</div>
 		<div class="holiday-content-body">
-			<!--<div class="holiday-content-bg"></div>-->
 		</div>
 	</body>
 	<script>
@@ -22,6 +21,7 @@
 			month:5,
 			class_:'.holiday-content-body'
 		};
+		$(".date").html(obj.year+"年"+obj.month+"月");
 		var week_first=create_calendar(obj)
 		function create_calendar(obj) {
 			var first_week,child_height=init_holiday(obj.year,obj.month);
@@ -38,6 +38,7 @@
 			}
 			/*获取每月有多少周*/
 			function init_holiday(year, month) {
+				$(obj.class_).find("div").remove();
 				var last = new Date(year, month, 0); //获取当前月最后一天时间  
 				var d = last.getDate();
 				var weekNum = getMonthWeek(year, month, d);
@@ -80,18 +81,60 @@
 				for(var i = 1; i <= a; i++) {
 					var child_str="<div class='holiday-date' style='height:" + child_height + "px;line-height:" + child_height + "px;' month-day='"+i+"'>"+i+"</div>";
 					if(i == 1) {
-						blank_fill(f,flag);
-						flag=false;
+						blank_fill(f, flag);
+						flag = false;
 						$(obj.class_).append(child_str);
 					} else {
 						$(obj.class_).append(child_str);
 						if(i == a) {
-							blank_fill(e,flag)
+							blank_fill(e, flag)
 						}
 					}
 				}
 			}
 			return first_week;
+		}
+		$(".left").on("click", function() {
+			var date_ = split_arr($(".date").html()),
+				y, m;
+			y = parseInt(date_[0]), m = parseInt(date_[1])
+			if(m == 1) {
+				date_[0] = y - 1;
+				date_[1] = 12;
+			} else {
+				date_[1] = m - 1;
+			}
+			$(".date").html(date_[0] + "年" + date_[1] + "月");
+			var obj = {
+				year: date_[0],
+				Y_month: date_[0] + "-" + date_[1],
+				month: date_[1],
+				class_: '.holiday-content-body'
+			};
+			create_calendar(obj)
+		})
+		$(".right").on("click", function() {
+			var date_ = split_arr($(".date").html()),
+				y, m;
+			y = parseInt(date_[0]), m = parseInt(date_[1])
+			if(m == 12) {
+				date_[0] = y + 1;
+				date_[1] = 1;
+			} else {
+				date_[1] = m + 1;
+			}
+			$(".date").html(date_[0] + "年" + date_[1] + "月");
+			obj = {
+				year: date_[0],
+				Y_month: date_[0] + "-" + date_[1],
+				month: date_[1],
+				class_: '.holiday-content-body'
+			};
+			create_calendar(obj)
+		})
+		
+		function split_arr(str) {
+			return str.replace("年", "-").substring(0, str.length - 1).split("-");
 		}
 	</script>
 </html>
