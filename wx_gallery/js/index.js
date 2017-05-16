@@ -51,6 +51,8 @@ var img_arr=[
 		url:"img/20170512162650.jpg"
 	},
 ]
+wx_gallery();
+function wx_gallery(){
 	function $$(class_name){
 		return document.getElementsByClassName(class_name)[0];
 	}
@@ -67,14 +69,18 @@ var img_arr=[
 			look_big(image_num)
 		}
 	}
-	
 	function look_big(index){
 		$$("img_model").style.display="block";
 		img_num=index+1;
-		$(".img_header_num").html(img_num+" / "+img_total)
+		$$("img_header_num").innerHTML=img_num+" / "+img_total;
 		num=1;
 		img_index=index;
-		$(".img_model_body").find("img").remove();
+		/*移除现有的照片*/
+		var childs=$$("img_model_body").childNodes;
+		var childs_length=childs.length;
+		for(var z=childs_length-1;z>=0;z--){
+			$$("img_model_body").removeChild(childs[z]);
+		}
 		var pre_num=0,next_num=0;
 		if(index==0){
 			pre_num=img_arr.length-1;
@@ -88,9 +94,27 @@ var img_arr=[
 				next_num=index+1;
 			}
 		}
+		var arr=[
+			{"classname":"pre_img","url":img_arr[pre_num].url},
+			{"classname":"this_img","url":img_arr[index].url},
+			{"classname":"next_img","url":img_arr[next_num].url}
+		]
+		var img_node=create_img(arr);
 		var img_str="<img class='pre_img' src='"+img_arr[pre_num].url+
 							"'/><img class='this_img' src='"+img_arr[index].url+"'/><img class='next_img' src='"+img_arr[next_num].url+"'/>"
-		$(".img_model_body").append(img_str);
+		for(var j=0;j<img_node.length;j++){
+			$$("img_model_body").appendChild(img_node[j]);
+		}
+	}
+	function create_img(arr){
+		var img_arr=[];
+		for(var i=0;i<arr.length;i++){
+			var img = document.createElement("img");
+			img.setAttribute("class",arr[i].classname);
+			img.setAttribute("src",arr[i].url);
+			img_arr.push(img)
+		}
+		return img_arr
 	}
 	//这个是用来记录触屏开始的点的位置。
 	var startX = 0,w=d_width;
@@ -109,18 +133,13 @@ var img_arr=[
 		startX = event.touches[0].clientX;
 	});
 	imageBox.addEventListener("touchmove", function(event) {
-			isMove = true;
-			moveX = event.touches[0].clientX;
-			distinceX = moveX - startX; 
-			var current = (-num * w) + distinceX;
-			addTranslate(current);
-		})
+		isMove = true;
+		moveX = event.touches[0].clientX;
+		distinceX = moveX - startX; 
+		var current = (-num * w) + distinceX;
+		addTranslate(current);
+	})
 	imageBox.addEventListener("touchend", function() {
-//		document.getElementsByClassName("img_model_header")[0].style.display="block";
-//		var timer = setInterval(function() {
-//			document.getElementsByClassName("img_model_header")[0].style.display="none";
-//			clearInterval(timer)
-//		}, 4000)
 		if(isMove && Math.abs(distinceX) > w / 3) {
 			if(distinceX > 0) {
 				num--;
@@ -143,6 +162,7 @@ var img_arr=[
 			 addTranslate(-num*w);
 		}
 	})
-	function close_model(){
+	$$('close').onclick=function(){
 		$$("img_model").style.display="none";
 	}
+}
