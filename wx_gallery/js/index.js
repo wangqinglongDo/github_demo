@@ -83,8 +83,12 @@ function wx_gallery(){
 		}
 		var pre_num=0,next_num=0;
 		if(index==0){
+			if(img_arr.length==1){
+				next_num=index
+			}else{
+				next_num=index+1;
+			}
 			pre_num=img_arr.length-1;
-			next_num=index+1;
 		}else{
 			if(index==(img_arr.length-1)){
 				pre_num=index-1;

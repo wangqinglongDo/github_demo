@@ -1,0 +1,19 @@
+function GetRequest(url_results) {   
+	var url=url_results;
+	var theRequest = new Object();   
+	if (url.indexOf("?") != -1) {   
+		var str = url.substr(1);   
+		strs = str.split("&");   
+		for(var i = 0; i < strs.length; i ++) {
+			if(i==0){
+				strs[i]=strs[i].split("?")[1];
+			}else{}
+			if(strs[i].split("=")[1].indexOf("%")>=0){/*对文字的处理*/
+				 theRequest[strs[i].split("=")[0]]=decodeURI(strs[i].split("=")[1]);
+			}else{
+				theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+			}
+		}   
+	}   
+	return theRequest;   
+} 
