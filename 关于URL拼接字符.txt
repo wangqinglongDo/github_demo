@@ -8,9 +8,9 @@ function GetRequest(url_results) {
 			if(i==0){
 				strs[i]=strs[i].split("?")[1];
 			}else{}
-			if(strs[i].split("=")[1].indexOf("%")>=0){/*对文字的处理*/
+			if(strs[i].split("=")[1].indexOf("%")>=0){/*鑻ユ嫾鎺ョ殑涓烘眽瀛楋紝鍒欑敤decodeURI()*/
 				 theRequest[strs[i].split("=")[0]]=decodeURI(strs[i].split("=")[1]);
-			}else{
+			}else{/*鑻ユ嫾鎺ヤ负string绫诲瀷锛屽垯鐢╱nescape()*/
 				theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
 			}
 		}   
