@@ -1,8 +1,8 @@
 # github_demo
 want show some demos for others
-# 一 仿微信的图片放大效果组件(JQ,JS---WX_gallery)
+# 一 仿微信的图片放大效果组件(JS---WX_gallery)
     主要在于获取点击的图片以及前一张和后一张图片。
-# 二 日历用的是JQ和原生JS相结合来实现的
+# 二 日历(jq,js---canlendar)
      思路是对new Date对象以及appendTo()的灵活使用
      
    ## 1.知道所要展示的月份一共有多少天
