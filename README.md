@@ -1,6 +1,6 @@
 # github_demo
 want show some demos for others
-# 一 仿微信的图片放大效果组件使用的是原生JS实现的
+# 一 仿微信的图片放大效果组件(JQ,JS---WX_gallery)
     主要在于获取点击的图片以及前一张和后一张图片。
 # 二 日历用的是JQ和原生JS相结合来实现的
      思路是对new Date对象以及appendTo()的灵活使用
