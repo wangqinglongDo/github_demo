@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <style type="text/css">
+    	ul li {list-style: none;display: inline-block;}
+    	a{text-decoration:none;}
+    </style>
+    <body>
+    	<template id="home">
+    		<div>this is home page</div>
+    	</template>
+    	<template id="search">
+    		<div>this is search page</div>
+    	</template>
+    	<template id="self">
+    		<div>this is self center</div>
+    	</template>
+    	<div id="content">
+    		 <div class="border cf">
+		        <ul>
+		            <li><a href="javascript:void(0);" @click="toggleTabs(tab01Text);">首页</a></li>
+		            <li><a href="javascript:void(0);" @click="toggleTabs(tab02Text);">搜索</a></li>
+		            <li><a href="javascript:void(0);" @click="toggleTabs(tab03Text);">个人主页</a></li>
+		        </ul>
+		    </div>
+		    <!-- 点击导航后要切换的内容 -->
+		    <div class="border" style="height: 100px;">
+		        <!-- 如果把切换出去的组件保留在内存中，可以保留它的状态或避免重新渲染。为此可以添加一个 keep-alive 指令参数 -->
+		        <component :is="currentView" keep-alive></component>
+		    </div>
+    	</div>
+    </body>
+    <script type="text/javascript" src="../lib/vue.js"></script>
+    <script>
+    	var home = Vue.extend({
+    		template:'#home'
+    	})
+    	var search = Vue.extend({
+    		template:"#search"
+    	})
+    	var self = Vue.extend({
+    		template:"#self"
+    	})
+    	var day01 = new Vue({
+    		el:"#content",
+    		data:{
+    			tab01Text:'home',
+    			tab02Text:'search',
+    			tab03Text:'self',
+    			currentView:'home'
+    		},
+    		components:{
+    			home:home,
+    			search:search,
+    			self:self
+    		},
+    		methods:{
+    			toggleTabs:function(tabtext){
+    				this.currentView = tabtext;
+    			}
+    		}
+    	})
+    </script>
+</html>
