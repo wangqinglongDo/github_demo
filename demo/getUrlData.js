@@ -1,7 +1,7 @@
-function GetRequest(url_results) {   
+function GetRequest(url_results) {/*url*/
 	var url=url_results;
 	var theRequest = new Object();   
-	if (url.indexOf("?") != -1) {   
+	if (url.indexOf("?") != -1) {/*判断是否包含参数*/  
 		var str = url.substr(1);   
 		strs = str.split("&");   
 		for(var i = 0; i < strs.length; i ++) {
